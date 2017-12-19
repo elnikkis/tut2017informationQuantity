@@ -31,8 +31,11 @@ public interface InformationEstimatorInterface{
 
 public class TestCase {
     public static void main(String[] args) {
-	try {
 
+    /* TEST CASE for FrequencerInterface */
+
+    // It returns -1 when TARGET is not set.
+	try {
 	    FrequencerInterface  myObject;
 	    int freq;
 	    System.out.println("checking s4.b173337.Frequencer");
@@ -40,51 +43,72 @@ public class TestCase {
 
 	    //Count the number of "H" in "Hi Ho Hi Ho". The answer is 4.
 	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
-	    myObject.setTarget("H".getBytes());
+//
+//	    myObject.setTarget("H".getBytes());
 	    freq = myObject.frequency();
 	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
-	    if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-
-		//Count the number of "o" in "Hi Ho Hi Ho". The answer is 2.
-		myObject.setSpace("Hi Ho Hi Ho".getBytes());
-		myObject.setTarget("o".getBytes());
-		freq = myObject.frequency();
-		System.out.print("\"o\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
-		if(2 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-
-		//Count the number of "あ" in "あいうえお あいうえお あいうえお". The answer is 3.
-		myObject.setSpace("あいうえお あいうえお あいうえお".getBytes());
-		myObject.setTarget("あ".getBytes());
-		freq = myObject.frequency();
-		System.out.print("\"あ\" in \"あいうえお あいうえお あいうえお\" appears "+freq+" times. ");
-		if(3 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-
-		//Test of a long message. Count the number of "Z" in the long message. The answer is 1000.
-		String elementOfmesseage = "(Z->)90° - (E-N²W)90°t=1"; //element of the long message
-		// Concatenate elemnts with buff for 100 time;
-		StringBuilder buff = new StringBuilder();
-		for (int i = 0 ; i < 1000 ; i++){
-			buff.append(elementOfmesseage);
-		}
-
-		myObject.setSpace( (buff.toString()) .getBytes());
-		myObject.setTarget("Z".getBytes());
-		freq = myObject.frequency();
-		System.out.print(" Z in " + buff + " appears " + freq + " times. ");
-		if(1000 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-
-
-
-
-
-
-
+	    if(-1 == freq) { System.out.println("OK ( TARGET is not set ) "); } else {System.out.println("WRONG"); }
 	}
-
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
 	}
 
+	// It returns -1 when TARGET's length is zero.
+	try {
+		FrequencerInterface  myObject;
+		int freq;
+		System.out.println("checking s4.b173337.Frequencer");
+		myObject = new s4.b173337.Frequencer();
+
+		//Count the number of "H" in "Hi Ho Hi Ho". The answer is 4.
+		myObject.setSpace("Hi Ho Hi Ho".getBytes());
+		myObject.setTarget("".getBytes());
+		freq = myObject.frequency();
+		System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+		if(-1 == freq) { System.out.println("OK ( TARGET's length is zero. ) "); } else {System.out.println("WRONG"); }
+	}
+	catch(Exception e) {
+		System.out.println("Exception occurred: STOP");
+	}
+
+	//It returns 0 when SPACE is not set.
+	try {
+		FrequencerInterface  myObject;
+		int freq;
+		System.out.println("checking s4.b173337.Frequencer");
+		myObject = new s4.b173337.Frequencer();
+
+		//Count the number of "H" in "Hi Ho Hi Ho". The answer is 4.
+//		myObject.setSpace("Hi Ho Hi Ho".getBytes());
+		myObject.setTarget("H".getBytes());
+		freq = myObject.frequency();
+		System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+		if(0 == freq) { System.out.println("OK ( SPACE is not set. ) "); } else {System.out.println("WRONG"); }
+	}
+	catch(Exception e) {
+		System.out.println("Exception occurred: STOP");
+	}
+
+	//It returns 0 when SPACE's length is zero.
+	try {
+		FrequencerInterface  myObject;
+		int freq;
+		System.out.println("checking s4.b173337.Frequencer");
+		myObject = new s4.b173337.Frequencer();
+
+		//Count the number of "H" in "Hi Ho Hi Ho". The answer is 4.
+		myObject.setSpace("".getBytes());
+		myObject.setTarget("H".getBytes());
+		freq = myObject.frequency();
+		System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+		if(0 == freq) { System.out.println("OK ( SPACE's length is zero. )"); } else {System.out.println("WRONG"); }
+	}
+	catch(Exception e) {
+			System.out.println("Exception occurred: STOP");
+	}
+
+
+	/*TEST CASE for InformationEstimatorInterface*/
 	try {
 	    InformationEstimatorInterface myObject;
 	    double value;
