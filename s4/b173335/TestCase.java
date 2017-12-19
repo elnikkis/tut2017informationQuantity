@@ -220,5 +220,22 @@ public class TestCase {
         catch(Exception e) {
             System.out.println("Exception occurred: STOP");
         }
+
+        // when the space is unreasonably large. We will encounter other problem anyway.
+        try {
+            InformationEstimatorInterface myObject;
+            double value;
+            System.out.println("\nTest [11]");
+            System.out.println("checking s4.b173335.InformationEstimator");
+            myObject = new s4.b173335.InformationEstimator();
+            myObject.setSpace("3210321001230123".getBytes());
+            myObject.setTarget("0".getBytes());
+            value = myObject.estimation();
+            System.out.println("It returned "+value + "when the true value is infinite, or space is not set.");
+            if(Double.MAX_VALUE == value) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        }
+        catch(Exception e) {
+            System.out.println("Exception occurred: STOP");
+        }
     }
 }

@@ -22,13 +22,19 @@ public class Frequencer implements FrequencerInterface{
 	public void setTarget(byte [] target) { myTarget = target;}
 	public void setSpace(byte []space) { mySpace = space; }
 	public int frequency() {
+		if(myTarget == null){
+			return -1;
+		}
+		if(mySpace == null){
+			return 0;
+		}
         int targetLength = myTarget.length;
     	int spaceLength = mySpace.length;
     	int count = 0;
-    	if(myTarget == null || targetLength == 0){
+    	if(targetLength == 0){
     		return -1;
     	}
-    	else if(mySpace == null || spaceLength == 0){
+    	else if(spaceLength == 0){
     		return 0;
     	}
         else{
