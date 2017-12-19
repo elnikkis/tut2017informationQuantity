@@ -28,19 +28,25 @@ public interface InformationEstimatorInterface{
 }                        
 */
 
-
+// 2 Add Test cases
 public class TestCase {
     public static void main(String[] args) {
 	try {
-	    FrequencerInterface  myObject;
-	    int freq;
+	    FrequencerInterface  myObject,myObject2;//Test 1 add
+	    int freq,freq2;
 	    System.out.println("checking s4.b173303.Frequencer");
 	    myObject = new s4.b173303.Frequencer();
-	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
+	    myObject2 = new s4.b173303.Frequencer();
+	    myObject.setSpace("Hi Hi Ho".getBytes());
+	    myObject2.setSpace("I'm very happy! because Shohei Otani joins the Angels in major League".getBytes());
 	    myObject.setTarget("H".getBytes());
+	    myObject2.setTarget("s".getBytes());//Test
 	    freq = myObject.frequency();
-	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+	    freq2 = myObject2.frequency();
+	    System.out.print("\"H\" in \"Hi Hi Ho\" appears "+freq+" times. ");
 	    if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+		System.out.print("\"s\" in \"I'm very happy! because Shohei Otani joins the Angels in major League\" appears "+freq2+" times. ");
+	    if(3 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
 	}
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
@@ -64,6 +70,20 @@ public class TestCase {
 	    myObject.setTarget("00".getBytes());
 	    value = myObject.estimation();
 	    System.out.println(">00 "+value);
+	}
+	catch(Exception e) {
+	    System.out.println("Exception occurred: STOP");
+	}
+
+	try{ //Test
+		InformationEstimatorInterface myObject;
+	    double value;
+	    myObject = new s4.b173303.InformationEstimator();
+	    myObject.setTarget("".getBytes());
+	    value = myObject.estimation();
+	    if (value == Double.MAX_VALUE){value = 0.0;}
+	    System.out.println(">No number "+value);
+
 	}
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
