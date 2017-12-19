@@ -100,14 +100,15 @@ public class TestCase {
             myObject.setTarget("".getBytes());
             value = myObject.estimation();
             System.out.println(">000 "+value);
-            //Spaceの長さが0の場合
-            myObject.setSpace("".getBytes());
-            myObject.setTarget("000".getBytes());
+	    //Spaceの長さが0の場合
+	    myObject.setSpace("".getBytes());
+	    myObject.setTarget("001".getBytes());
+            value = myObject.estimation();
             System.out.println(">001 "+value);
             //Targetをセットしない場合
             InformationEstimatorInterface myObjectError;
             myObjectError = new s4.b151840.InformationEstimator();
-            myObject.setSpace("".getBytes());
+            myObject.setSpace("002".getBytes());
             value = myObjectError.estimation();
             System.out.println(">002 "+value);
         }
@@ -119,7 +120,7 @@ public class TestCase {
             InformationEstimatorInterface myObject;
             double value;
             myObject = new s4.b151840.InformationEstimator();
-            myObject.setTarget("".getBytes());
+            myObject.setTarget("003".getBytes());
             value = myObject.estimation();
             System.out.println(">003 "+value);
             
