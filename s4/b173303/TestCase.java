@@ -48,8 +48,7 @@ public class TestCase {
             myObject2.setSpace("abcde".getBytes());
 	    myObject2.setTarget("".getBytes());
             freq = myObject2.frequency();
-            System.out.print("\"\" in \"abcde\" appears "+freq+" times. ");
-            if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            if(-1 == freq) { System.out.println("Extracted -1!"); } else {System.out.println("WRONG"); }
 
             //Not set target
             FrequencerInterface  myObject3;
@@ -57,7 +56,7 @@ public class TestCase {
             myObject3.setSpace("3".getBytes());
             freq = myObject3.frequency();
             System.out.print("\"\" in \"3\" appears "+freq+" times. ");
-            if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            if(-1 == freq) { System.out.println("Extracted -1!"); } else {System.out.println("WRONG"); }
 
 	    //Not set Space
 	    FrequencerInterface  myObject4;
@@ -65,7 +64,7 @@ public class TestCase {
 	    myObject4.setTarget("d".getBytes());
             freq = myObject4.frequency();
             System.out.print("\"d\" in \"\" appears "+freq+" times. ");
-            if(0 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            if(0 == freq) { System.out.println("Extracted 0!"); } else {System.out.println("WRONG"); }
 
 	    //Space is zero
 	    FrequencerInterface  myObject5;
@@ -74,7 +73,7 @@ public class TestCase {
             myObject5.setTarget("".getBytes());
             freq = myObject5.frequency();
             System.out.print("\"\" in \"\" appears "+freq+" times. ");
-            if(0 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            if(0 == freq) { System.out.println("Extracted 0!"); } else {System.out.println("WRONG"); }
 
 	}
 	catch(Exception e) {
@@ -104,7 +103,7 @@ public class TestCase {
             myObject.setTarget("".getBytes());
             value = myObject.estimation();
             System.out.println(">Target Zero "+value);
-	    if(0.0 == value) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	    if(0.0 == value) { System.out.println("Extracted 0.0!"); } else {System.out.println("WRONG"); }
 
 	    //Not set Target
 	    InformationEstimatorInterface myObject2;
@@ -112,7 +111,7 @@ public class TestCase {
             myObject2.setSpace("3210321001230123".getBytes());
             value = myObject2.estimation();
             System.out.println(">Not set target "+value);
-	    if(0.0 == value) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	    if(0.0 == value) { System.out.println("Extracted 0.0!"); } else {System.out.println("WRONG"); }
 
 	    //True value is Infinite                                                                         
             InformationEstimatorInterface myObject3;
@@ -121,7 +120,7 @@ public class TestCase {
             myObject3.setTarget("012".getBytes());
             value = myObject3.estimation();
             System.out.println(">Infinite "+value);
-            if(Double.MAX_VALUE == value) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+            if(Double.MAX_VALUE == value) { System.out.println("True value is Infinite!"); } else {System.out.println("WRONG"); }
 
 	    //Not set Space
 	    InformationEstimatorInterface myObject4;
@@ -129,7 +128,7 @@ public class TestCase {
             myObject4.setTarget("0".getBytes());
             value = myObject4.estimation();
             System.out.println(">Not set Space "+value);
-	    if(Double.MAX_VALUE == value) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	    if(Double.MAX_VALUE == value) { System.out.println("Extract Double.MAX_VALUE!"); } else {System.out.println("WRONG"); }
 
 	}
 	catch(Exception e) {
