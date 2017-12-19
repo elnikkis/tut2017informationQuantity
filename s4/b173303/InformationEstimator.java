@@ -41,6 +41,14 @@ public class InformationEstimator implements InformationEstimatorInterface{
     }
 
     public double estimation(){
+
+	if (mySpace == null){
+	    return Double.MAX_VALUE;
+	}
+	if (myTarget == null || myTarget.length == 0){
+	    return 0.0;
+	}
+
 	boolean [] partition = new boolean[myTarget.length+1];
 	int np;
 	np = 1<<(myTarget.length-1);
@@ -60,7 +68,7 @@ public class InformationEstimator implements InformationEstimatorInterface{
 
 	    // Compute Information Quantity for the partition, in "value1"
 	    // value1 = IQ(#"ab")+IQ(#"cde")+IQ(#"fg") for the above example
-        double value1 = (double) 0.0;
+	    double value1 = (double) 0.0;
 	    int end = 0;
 	    int start = end;
 	    while(start<myTarget.length) {
