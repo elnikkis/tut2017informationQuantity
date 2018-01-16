@@ -38,7 +38,17 @@ public class Frequencer implements FrequencerInterface{
     // I know that here is a potential problem in the declaration.
     public int subByteFrequency(int start, int length) { 
 	// Not yet, but it is not currently used by anyone.
-	return -1;
+        int targetLength = myTarget.length;
+        int spaceLength = length;
+        int count = 0;
+        for(int i = start; i<spaceLength; i++) { // Is it OK?
+            boolean abort = false;
+            for(int j = 0; j<targetLength; j++) {
+                if(myTarget[j] != mySpace[i+j]) { abort = true; break; }
+            }
+            if(abort == false) { count++; }
+        }
+        return count;
     }
 
     public static void main(String[] args) {

@@ -15,6 +15,7 @@ interface FrequencerInterface {     // This interface provides the design for fr
 }
 */
 
+
 /*
 package s4.specification;
 public interface InformationEstimatorInterface{
@@ -41,7 +42,10 @@ public class TestCase {
 	    freq = myObject.frequency();
 	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
 	    if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-	}
+        freq=myObject.subByteFrequency(0,4);
+        System.out.print("\"H\" in \"Hi Ho\" appears "+freq+" times. ");
+        if(2==freq){ System.out.println("OK"); } else {System.out.println("WRONG"); }
+    }
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
 	}
@@ -64,7 +68,10 @@ public class TestCase {
 	    myObject.setTarget("00".getBytes());
 	    value = myObject.estimation();
 	    System.out.println(">00 "+value);
-	}
+        myObject.setTarget("20".getBytes());
+        value = myObject.estimation();
+        System.out.println(">20 "+value);
+    }
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
 	}
