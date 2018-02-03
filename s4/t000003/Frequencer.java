@@ -20,6 +20,22 @@ public class Frequencer implements FrequencerInterface {
 
     @Override
     public int frequency() {
+        // 基本的な振る舞いチェック
+        if(this.myTarget == null || this.myTarget.length == 0){
+            return -1;
+        }
+        if(this.mySpace == null || this.mySpace.length == 0){
+            return 0;
+        }
+        return subByteFrequency(0, this.myTarget.length);
+    }
+
+    /**
+     * TARGETのsubBytesの頻度を数える
+     */
+    @Override
+    public int subByteFrequency(int start, int length) {
+        // 基本的な振る舞いチェック
         if(this.myTarget == null || this.myTarget.length == 0){
             return -1;
         }
@@ -27,30 +43,33 @@ public class Frequencer implements FrequencerInterface {
             return 0;
         }
 
-        int targetLength = myTarget.length;
+        //int targetLength = myTarget.length;
+        int targetLength = length;
         int spaceLength = mySpace.length;
-        // mySpaceの中からmyTargetの出現頻度を数える
+
+        // 値域: start >= 0 && length > 0
+        if(start < 0 || length <= 0){
+            return -1;
+        }
+        // subByteがTARGETからはみ出ているときはエラー
+        if(start+length > this.myTarget.length){
+            return -1;
+        }
+
         int count = 0;
-        for(int start = 0; start < spaceLength-targetLength; start++) { // Is it OK?
+        for(int p=0; p<spaceLength-targetLength; p++){
             boolean abort = false;
-            for(int i = 0; i<targetLength; i++) {
-                if(myTarget[i] != mySpace[start+i]) {
+            for(int i=0; i<targetLength; i++){
+                if(myTarget[start+i] != mySpace[p+i]){
                     abort = true;
                     break;
                 }
             }
-            if(abort == false) {
+            if(abort == false){
                 count++;
             }
         }
         return count;
-    }
-
-    // I know that here is a potential problem in the declaration.
-    @Override
-    public int subByteFrequency(int start, int length) { 
-        // Not yet, but it is not currently used by anyone.
-        return -1;
     }
 
     public static void main(String[] args) {
