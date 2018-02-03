@@ -2,6 +2,10 @@ package s4.t000003; // Please modify to s4.Bnnnnnn, where nnnnnn is your student
 import java.lang.*;
 import s4.specification.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 
 public class InformationEstimator implements InformationEstimatorInterface {
     // Code to tet, *warning: This code condtains intentional problem*
@@ -9,19 +13,23 @@ public class InformationEstimator implements InformationEstimatorInterface {
     byte[] mySpace;  // Sample space to compute the probability
     FrequencerInterface myFrequencer;  // Object for counting frequency
 
-    byte[] subBytes(byte [] x, int start, int end) {
+    byte[] subBytes(byte[] x, int start, int end) {
         // corresponding to substring of String for  byte[] ,
         // It is not implement in class library because internal structure of byte[] requires copy.
-        byte [] result = new byte[end - start];
+        byte[] result = new byte[end - start];
         for(int i = 0; i<end - start; i++) {
             result[i] = x[start + i];
         }
         return result;
     }
 
+    public static byte[] readBytesFromFile(final String path) throws IOException {
+        return Files.readAllBytes(Paths.get(path));
+    }
+
     // IQ: information quantity for a count,  -log2(count/sizeof(space))
     double iq(int freq) {
-        return  - Math.log10((double) freq / (double) mySpace.length)/ Math.log10((double) 2.0);
+        return  - Math.log10((double) freq / (double) mySpace.length) / Math.log10((double) 2.0);
     }
 
     @Override
@@ -45,7 +53,7 @@ public class InformationEstimator implements InformationEstimatorInterface {
             return Double.MAX_VALUE;
         }
 
-        boolean [] partition = new boolean[myTarget.length+1];
+        boolean[] partition = new boolean[myTarget.length+1];
         int np;
         np = 1<<(myTarget.length-1);
         // System.out.println("np="+np+" length="+myTarget.length);
@@ -67,9 +75,9 @@ public class InformationEstimator implements InformationEstimatorInterface {
             double value1 = (double) 0.0;
             int end = 0;;
             int start = end;
-            while(start<myTarget.length) {
+            while(start < myTarget.length) {
                 // System.out.write(myTarget[end]);
-                end++;;
+                end++;
                 while(partition[end] == false) {
                     // System.out.write(myTarget[end]);
                     end++;
@@ -88,6 +96,7 @@ public class InformationEstimator implements InformationEstimatorInterface {
     }
 
     public static void main(String[] args) {
+        /*
         InformationEstimator myObject;
         double value;
         myObject = new InformationEstimator();
@@ -104,5 +113,25 @@ public class InformationEstimator implements InformationEstimatorInterface {
         myObject.setTarget("00".getBytes());
         value = myObject.estimation();
         System.out.println(">00 "+value);
+        */
+
+        if(args.length < 2){
+            System.err.println("Usage: java InformationEstimator [SPACE file] [TARGET file]");
+            System.exit(1);
+        }
+
+        byte[] space = null;
+        byte[] target = null;
+        try{
+            space = readBytesFromFile(args[0]);
+            target = readBytesFromFile(args[1]);
+        }
+        catch(IOException e){
+        }
+        InformationEstimator estimator = new InformationEstimator();
+        estimator.setSpace(space);
+        estimator.setTarget(target);
+        double value = estimator.estimation();
+        System.out.println(value);
     }
 }
