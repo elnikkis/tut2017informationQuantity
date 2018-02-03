@@ -76,19 +76,23 @@ public class TestCase {
     private static void testSubByteFrequency() {
         {
             FrequencerInterface frq = new Frequencer();
-            frq.setSpace("aaaaaaaaaaaaaaaaaaaaaaa".getBytes());
-            frq.setTarget("a".getBytes());
+            frq.setSpace("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".getBytes());
+            frq.setTarget("aaaaa".getBytes());
             {
                 int ret = frq.subByteFrequency(0, 5);
-                assertTrue(ret == 5, "subByteFrequency 5");
+                assertTrue(ret == 35, "subByteFrequency 5, got "+ret);
             }
             {
                 int ret = frq.subByteFrequency(0, 2);
-                assertTrue(ret == 2, "subByteFrequency 2");
+                assertTrue(ret == 38, "subByteFrequency 2, got "+ret);
+            }
+            {
+                int ret = frq.subByteFrequency(0, 1);
+                assertTrue(ret == 39, "subByteFrequency 1, got "+ret);
             }
             {
                 int ret = frq.subByteFrequency(0, 0);
-                assertTrue(ret == 2, "subByteFrequency 0");
+                assertTrue(ret == -1, "subByteFrequency 0 (behaviour undefined), got "+ret);
             }
         }
     }
