@@ -86,6 +86,34 @@ public class TestCase {
         }
     }
 
+    private static void testInformationEstimator() {
+        {
+            InformationEstimatorInterface est = new InformationEstimator();
+            double ret = est.estimation();
+            assertTrue(ret == 0.0 || ret == Double.MAX_VALUE, "both empty");
+        }
+        {
+            InformationEstimatorInterface est = new InformationEstimator();
+            est.setSpace("foo bar foo ba".getBytes());
+            double ret = est.estimation();
+            assertTrue(ret == 0.0, "When TARGET is not set, returns 0.0");
+        }
+        {
+            InformationEstimatorInterface est = new InformationEstimator();
+            est.setSpace("foo bar foo ba".getBytes());
+            est.setTarget("".getBytes());
+            double ret = est.estimation();
+            assertTrue(ret == 0.0, "When TARGET's length is zero, returns 0.0");
+        }
+        {
+            InformationEstimatorInterface est = new InformationEstimator();
+            est.setTarget("fo".getBytes());
+            double ret = est.estimation();
+            assertTrue(ret == Double.MAX_VALUE, "When SPACE is not set, returns Double.MAX_VALUE");
+        }
+        //TODO 推定値がinfiniteの場合のテスト
+    }
+
     public static void main(String[] args) {
         try {
             FrequencerInterface  myObject;
@@ -129,6 +157,8 @@ public class TestCase {
 
         try {
             testFrequency();
+            testSubByteFrequency();
+            testInformationEstimator();
         }
         catch(Exception e) {
             e.printStackTrace();
