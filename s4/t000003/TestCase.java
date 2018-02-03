@@ -36,13 +36,7 @@ public class TestCase {
         {
             FrequencerInterface frq = new Frequencer();
             int ret = frq.frequency();
-            assertTrue(ret == 0, "When SPACE is not set, frequency should return 0.");
-        }
-        {
-            FrequencerInterface frq = new Frequencer();
-            frq.setSpace("".getBytes());
-            int ret = frq.frequency();
-            assertTrue(ret == 0, "When SPACE's length is zero, frequency should return 0.");
+            assertTrue(ret == 0 || ret == -1, "When TARGET and SPACE is empty, the behaviour is undefined...?");
         }
         {
             FrequencerInterface frq = new Frequencer();
@@ -56,6 +50,19 @@ public class TestCase {
             frq.setTarget("".getBytes());
             int ret = frq.frequency();
             assertTrue(ret == -1, "When TARGET's length is zero, frequency should return -1.");
+        }
+        {
+            FrequencerInterface frq = new Frequencer();
+            frq.setTarget("ba".getBytes());
+            int ret = frq.frequency();
+            assertTrue(ret == 0, "When SPACE is not set, frequency should return 0.");
+        }
+        {
+            FrequencerInterface frq = new Frequencer();
+            frq.setSpace("".getBytes());
+            frq.setTarget("ba".getBytes());
+            int ret = frq.frequency();
+            assertTrue(ret == 0, "When SPACE's length is zero, frequency should return 0.");
         }
         {
             FrequencerInterface frq = new Frequencer();
