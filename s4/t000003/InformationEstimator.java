@@ -38,6 +38,13 @@ public class InformationEstimator implements InformationEstimatorInterface {
 
     @Override
     public double estimation(){
+        if(this.myTarget == null || this.myTarget.length == 0){
+            return 0.0;
+        }
+        if(this.mySpace == null){
+            return Double.MAX_VALUE;
+        }
+
         boolean [] partition = new boolean[myTarget.length+1];
         int np;
         np = 1<<(myTarget.length-1);
