@@ -34,7 +34,7 @@ public class Frequencer implements FrequencerInterface {
      * TARGETのsubBytesの頻度を数える
      */
     @Override
-    public int subByteFrequency(int start, int length) {
+    public int subByteFrequency(int start, int end) {
         // 基本的な振る舞いチェック
         if(this.myTarget == null || this.myTarget.length == 0){
             return -1;
@@ -44,15 +44,16 @@ public class Frequencer implements FrequencerInterface {
         }
 
         //int targetLength = myTarget.length;
-        int targetLength = length;
+        int targetLength = end - start;
         int spaceLength = mySpace.length;
 
-        // 値域: start >= 0 && length > 0
-        if(start < 0 || length <= 0){
+
+        // 値域: 0 <= start < TARGET.length && 0 < end < TARGET.length
+        if(start < 0 || start > this.myTarget.length || end <= 0 || end > this.myTarget.length){
             return -1;
         }
-        // subByteがTARGETからはみ出ているときはエラー
-        if(start+length > this.myTarget.length){
+        // subByteが長さ0ならエラー
+        if(targetLength <= 0){
             return -1;
         }
 
