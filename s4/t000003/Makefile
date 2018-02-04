@@ -19,7 +19,7 @@ runfrequencer: Frequencer.class
 runinformationestimator: InformationEstimator.class
 	java -classpath "../.." s4.t000003/InformationEstimator dummy100 dummy10
 test: TestCase.class Frequencer.class InformationEstimator.class
-	java -classpath "../.." s4.t000003/TestCase
+	java -ea -classpath "../.." s4.t000003/TestCase
 
 
 makedummy: dummy10 dummy100 dummy1k dummy1m
