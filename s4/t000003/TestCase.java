@@ -123,6 +123,21 @@ public class TestCase {
             assertTrue(ret == Double.MAX_VALUE, "When SPACE is not set, returns Double.MAX_VALUE");
         }
         //TODO 推定値がinfiniteの場合のテスト
+        {
+            InformationEstimatorInterface est = new InformationEstimator();
+            est.setSpace("foo bar foo ba".getBytes());
+            est.setTarget("fo".getBytes());
+            double ret = est.estimation();
+            System.out.printf("value: %e\n", ret);
+            //TODO 推定値のvalidation
+        }
+        {
+            InformationEstimatorInterface est = new InformationEstimator();
+            est.setSpace("foo bar foo ba".getBytes());
+            est.setTarget("f".getBytes());
+            double ret = est.estimation();
+            System.out.printf("value: %e\n", ret);
+        }
     }
 
     public static void main(String[] args) {
@@ -148,15 +163,20 @@ public class TestCase {
             System.out.println("checking s4.t000003.InformationEstimator");
             myObject = new s4.t000003.InformationEstimator();
             myObject.setSpace("3210321001230123".getBytes());
+            System.out.printf("Space: %s\n", "3210321001230123");
+
             myObject.setTarget("0".getBytes());
             value = myObject.estimation();
             System.out.println(">0 "+value);
+
             myObject.setTarget("01".getBytes());
             value = myObject.estimation();
             System.out.println(">01 "+value);
+
             myObject.setTarget("0123".getBytes());
             value = myObject.estimation();
             System.out.println(">0123 "+value);
+
             myObject.setTarget("00".getBytes());
             value = myObject.estimation();
             System.out.println(">00 "+value);
