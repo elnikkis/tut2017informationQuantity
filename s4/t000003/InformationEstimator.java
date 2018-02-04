@@ -13,6 +13,8 @@ public class InformationEstimator implements InformationEstimatorInterface {
     byte[] mySpace;  // Sample space to compute the probability
     FrequencerInterface myFrequencer;  // Object for counting frequency
 
+    double[][] memo;
+
     byte[] subBytes(byte[] x, int start, int end) {
         // corresponding to substring of String for  byte[] ,
         // It is not implement in class library because internal structure of byte[] requires copy.
@@ -32,16 +34,75 @@ public class InformationEstimator implements InformationEstimatorInterface {
         return  - Math.log10((double) freq / (double) mySpace.length) / Math.log10((double) 2.0);
     }
 
-    @Override
-    public void setTarget(byte[] target) {
-        myTarget = target;
+    /**
+     * Information quantity of subbyte TARGET[start:end]
+     *
+     * iqs(s) = min()
+     * iqs("abc") = min( f("abc"), IQ("a")+f("bc"), IQ("ab")+f("c") )
+     *
+     * s: TARGET[start:end]
+     */
+    double iqs(int start, int end) {
+        if(end - start <= 0){
+            //System.out.printf("[%d:%d]\n", start, end);
+            return 0.0;
+        }
+        //System.out.printf("start: %d, end: %d\n", start, end);
+        //System.out.println(memo);
+        if(Double.compare(memo[start][end], Double.MAX_VALUE) != 0){
+            return memo[start][end];
+        }
+
+        double value = Double.MAX_VALUE;
+        for(int i=0; i<end-start; i++){
+            // IQ(0:i) + f(i:len)
+            int freq = myFrequencer.subByteFrequency(start+i, end);
+            //assert freq >= 0;
+            double t1 = iqs(start, start+i);
+            double t2 = iq(freq);
+            double iq = t1 + t2;
+
+            //System.out.println(new String(mySpace));
+            //System.out.println(new String(myTarget));
+            //System.out.printf("iq(%d)\n", freq);
+            System.out.printf("iqs(%d, %d) + iq(%d, %d) = %e + %e = %e\n", start, start+i, start+i, end, t1, t2, iq);
+
+            // find min
+            if(iq < value){
+                value = iq;
+            }
+        }
+
+        // memo
+        memo[start][end] = value;
+
+        return value;
     }
 
     @Override
-    public void setSpace(byte[] space) { 
-        myFrequencer = new Frequencer();
+    public void setTarget(byte[] target) {
+        myTarget = target;
+        if(myFrequencer == null){
+            myFrequencer = new Frequencer();
+        }
+        myFrequencer.setTarget(target);
+
+        // メモ化するやつ、無限大で初期化
+        memo = new double[target.length+1][target.length+1];
+        for(int i=0; i<memo.length; i++){
+            for(int j=0; j<memo[i].length; j++){
+                memo[i][j] = Double.MAX_VALUE;
+            }
+        }
+    }
+
+    @Override
+    public void setSpace(byte[] space) {
         mySpace = space;
-        myFrequencer.setSpace(space); 
+        if(myFrequencer == null){
+            myFrequencer = new Frequencer();
+        }
+        myFrequencer.setSpace(space);
     }
 
     @Override
@@ -52,6 +113,7 @@ public class InformationEstimator implements InformationEstimatorInterface {
         if(this.mySpace == null){
             return Double.MAX_VALUE;
         }
+        //TODO Spaceのlengthが0のときは？
 
         boolean[] partition = new boolean[myTarget.length+1];
         int np;
@@ -82,15 +144,22 @@ public class InformationEstimator implements InformationEstimatorInterface {
                     // System.out.write(myTarget[end]);
                     end++;
                 }
+                value1 = iqs(start, end);
+                System.out.printf("iqs[%d:%d] = %e\n", start, end, value1);
+
                 // System.out.print("("+start+","+end+")");
-                myFrequencer.setTarget(subBytes(myTarget, start, end));
-                value1 = value1 + iq(myFrequencer.frequency());
+                //myFrequencer.setTarget(subBytes(myTarget, start, end));
+                //value1 = value1 + iq(myFrequencer.frequency());
+
                 start = end;
             }
             // System.out.println(" "+ value1);
 
             // Get the minimal value in "value"
-            if(value1 < value) value = value1;
+            if(Double.compare(value1, value) < 0){
+                value = value1;
+            }
+            //if(value1 < value) value = value1;
         }
         return value;
     }
@@ -132,6 +201,6 @@ public class InformationEstimator implements InformationEstimatorInterface {
         estimator.setSpace(space);
         estimator.setTarget(target);
         double value = estimator.estimation();
-        System.out.println(value);
+        System.out.printf("%e\n", value);
     }
 }
